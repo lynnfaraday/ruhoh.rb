@@ -4,7 +4,7 @@ class Ruhoh
     attr_accessor :templater, :converter
 
     def initialize
-      @templater = Ruhoh::Templaters::Base
+      @templater = Class.new.extend(Ruhoh::Templaters::Base)
       @converter = Ruhoh::Converter
     end
     

@@ -1,10 +1,8 @@
 class Ruhoh
-  
   module Templaters
-    
     module Base
     
-      def self.build_payload(page=nil)
+      def build_payload(page=nil)
         {
           "db" => {
             "pages" =>  Ruhoh::DB.pages,
@@ -23,18 +21,18 @@ class Ruhoh
       # Render a given page object.
       # This is different from parse only in that rendering a page
       # assumes we use page.content and its layouts as the incoming view.
-      def self.render(page)
-        self.parse(self.expand(page), page)
+      def render(page)
+        parse(expand(page), page)
       end
 
       # Parse arbitrary content relative to a given page.
-      def self.parse(output, page)
-        Ruhoh::Templaters::RMustache.render(output, self.build_payload(page))
+      def parse(output, page)
+        Ruhoh::Templaters::RMustache.render(output, build_payload(page))
       end
     
       # Expand the page.
       # Places page content into sub-template then into master template if available.
-      def self.expand(page)
+      def expand(page)
         if page.sub_layout
           output = page.sub_layout['content'].gsub(Ruhoh::Utils::ContentRegex, page.content)
         else
@@ -51,7 +49,5 @@ class Ruhoh
       end
     
     end #Base
-  
   end #Templaters
-  
 end #Ruhoh

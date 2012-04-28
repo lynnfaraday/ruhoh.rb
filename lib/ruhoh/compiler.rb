@@ -1,14 +1,13 @@
 class Ruhoh
   
   class Compiler
+    attr_accessor :page
     
     def initialize(target_directory)
       Ruhoh.config.env ||= 'production'
       Ruhoh::Friend.say { plain "Compiling for environment: '#{Ruhoh.config.env}'" }
-
-      Ruhoh::DB.update_all
       @target = target_directory || "./#{Ruhoh.folders.compiled}"
-      @page = Ruhoh::Page.new
+      #@page = Ruhoh::Page.new
     end
     
     # TODO: seems rather dangerous to delete the incoming target directory?

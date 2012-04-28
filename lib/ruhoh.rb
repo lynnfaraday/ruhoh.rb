@@ -11,9 +11,11 @@ require 'fileutils'
 
 require 'mustache'
 
+require 'ruhoh/event'
 require 'ruhoh/logger'
 require 'ruhoh/utils'
 require 'ruhoh/friend'
+require 'ruhoh/hook'
 require 'ruhoh/parsers/posts'
 require 'ruhoh/parsers/pages'
 require 'ruhoh/parsers/routes'
@@ -28,9 +30,10 @@ require 'ruhoh/converters/converter'
 require 'ruhoh/page'
 require 'ruhoh/previewer'
 require 'ruhoh/watch'
+require 'ruhoh/programs'
 
 class Ruhoh
-
+  
   class << self
     attr_accessor :log
     attr_reader :folders, :files, :config, :paths, :filters
@@ -55,7 +58,7 @@ class Ruhoh
     self.reset
     @site_source = opts[:source] if opts[:source]
 
-    !!(self.setup_config && self.setup_paths && self.setup_filters)
+    !!(self.setup_config && self.setup_paths && self.setup_filters && self.setup_hooks)
   end
   
   def self.reset
@@ -119,6 +122,19 @@ class Ruhoh
       @filters.pages['regexes'] << node if node.is_a?(Regexp)
     }
     @filters
+  end
+  
+  def self.setup_hooks
+    hooks = Dir[File.join(Ruhoh.paths.site_source, '_plugins', "**/*.rb")]
+    return true if hooks.empty?
+
+    hooks.each {|f| require f }
+    
+    Ruhoh::Hook.subclasses.each do |klass|
+      Ruhoh::Event.add_observer(klass.new)
+    end
+
+    true
   end
   
   def self.absolute_path(*args)

@@ -85,8 +85,8 @@ class Ruhoh
   end
   
   def self.setup_widgets
-    widgets = Dir[File.join(self.paths.widgets, "**/*.rb")]
-    widgets.each {|f| require f } unless widgets.empty?
+   widgets = Dir[File.join(self.paths.widgets, "**/*.rb")]
+   widgets.each {|f| require f } unless widgets.empty?
   end
   
   def self.ensure_setup

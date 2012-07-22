@@ -8,6 +8,7 @@ require 'ruhoh/parsers/stylesheets'
 require 'ruhoh/parsers/javascripts'
 require 'ruhoh/parsers/payload'
 require 'ruhoh/parsers/site'
+require 'ruhoh/parsers/pagination'
 
 class Ruhoh
   # Public: Database class for interacting with "data" in Ruhoh.

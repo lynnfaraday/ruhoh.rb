@@ -10,6 +10,7 @@ class Ruhoh
       :posts_layout,
       :posts_permalink,
       :rss_limit,
+      :posts_latest,
       :theme
     )
 
@@ -32,6 +33,9 @@ class Ruhoh
 
       config.rss_limit = site_config['rss']['limit'] rescue nil
       config.rss_limit = 20 if config.rss_limit.nil?
+
+      config.posts_latest = site_config['posts']['latest'] rescue nil
+      config.posts_latest = 5 if config.posts_latest.nil?
 
       config.posts_permalink = site_config['posts']['permalink'] rescue nil
       config.posts_layout = site_config['posts']['layout'] rescue nil

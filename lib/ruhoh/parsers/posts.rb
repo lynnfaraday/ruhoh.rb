@@ -19,7 +19,8 @@ class Ruhoh
           'chronological'   => self.build_chronology(ordered_posts),
           'collated'        => self.collate(ordered_posts),
           'tags'            => self.parse_tags(ordered_posts),
-          'categories'      => self.parse_categories(ordered_posts)
+          'categories'      => self.parse_categories(ordered_posts),
+          'pagination'      => self.build_pagination(ordered_posts)
         }
       end
       
@@ -60,10 +61,10 @@ class Ruhoh
         end
         
         Ruhoh::Utils.report('Posts', dictionary, invalid)
-        
+                
         { 
           "posts" => dictionary,
-          "drafts" => drafts
+          "drafts" => drafts,
         }
       end
       
@@ -253,6 +254,11 @@ class Ruhoh
           end
         end  
         categories
+      end
+      
+      def self.build_pagination(ordered_posts)
+        paginator = Paginator.new(Ruhoh.config.posts_latest, ordered_posts)
+        paginator.paginate        
       end
 
     end # Post

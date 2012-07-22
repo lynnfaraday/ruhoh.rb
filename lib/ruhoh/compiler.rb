@@ -1,5 +1,6 @@
 require 'ruhoh/compilers/theme'
 require 'ruhoh/compilers/rss'
+require 'ruhoh/compilers/pagination'
 
 class Ruhoh
   module Compiler

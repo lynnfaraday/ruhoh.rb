@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
     lib/ruhoh/compiler.rb
     lib/ruhoh/compilers/rss.rb
     lib/ruhoh/compilers/theme.rb
+    lib/ruhoh/compilers/pagination.rb
     lib/ruhoh/config.rb
     lib/ruhoh/converters/converter.rb
     lib/ruhoh/converters/markdown.rb
@@ -47,6 +48,7 @@ Gem::Specification.new do |s|
     lib/ruhoh/parsers/layouts.rb
     lib/ruhoh/parsers/pages.rb
     lib/ruhoh/parsers/partials.rb
+    lib/ruhoh/parsers/pagination.rb
     lib/ruhoh/parsers/payload.rb
     lib/ruhoh/parsers/posts.rb
     lib/ruhoh/parsers/routes.rb

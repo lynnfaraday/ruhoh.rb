@@ -18,6 +18,9 @@ class Ruhoh
         Ruhoh::DB.pages[id]
       end
       
+      # Default to the first pagination page.
+      @data['pagination'] = Ruhoh::DB.posts['pagination'][0]
+      
       raise "Page #{id} not found in database" unless @data
       @id = id
     end
@@ -69,7 +72,7 @@ class Ruhoh
     def payload
       self.ensure_id
       payload = Ruhoh::DB.payload.dup
-      payload['page'] = @data
+      payload['page'] = @data      
       payload
     end
     

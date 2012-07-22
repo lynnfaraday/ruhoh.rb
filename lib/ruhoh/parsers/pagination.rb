@@ -39,9 +39,20 @@ class Ruhoh
             'total_posts'   => total_posts,
             'per_page'      => @posts_per_page,
             'posts'         => posts.map { |p| p['id'] },       
-            'previous_page' => page_index == 0 ? nil : page_number - 1,
-            'next_page'     => page_index == total_pages - 1 ? nil : page_number + 1
+            'previous_page' => get_prev_index_page(page_number),
+            'next_page'     => get_next_index_page(page_number, total_pages)
           }
+        end
+        
+        def get_prev_index_page(page_number)
+          return nil if page_number == 1
+          return "/" if page_number == 2
+          return "/index/#{page_number - 1}/"
+        end
+
+        def get_next_index_page(page_number, total_pages)
+          return nil if page_number == total_pages
+          return "/index/#{page_number + 1}/"
         end
 
       end

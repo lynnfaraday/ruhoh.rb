@@ -2,13 +2,29 @@ class Ruhoh
   module Compiler
     module Pagination   
       def self.run(target, page)
+        
+        # We're basically just replicating index.html over and over with 
+        # different pagination content.
         page.change('index.html')
-        posts_db = Ruhoh::DB.payload['db']['posts']
-        posts_db['pagination'].each do |p|             
-          File.open(target + "/index#{p['page_number']}.html", 'w:UTF-8') do |index_file|
-            page.data['layout'] = "index_page"
+
+        base_dir = target + "/index"
+        FileUtils.mkdir_p base_dir
+
+        Ruhoh::DB.payload['db']['posts']['pagination'].each do |p|  
+          if (p['page_number'] == 1)
+            # Index.html is rendered separately
+            next
+          else
+            dir = "#{base_dir}/#{p['page_number']}"
+            FileUtils.mkdir_p dir
+            file_name = "#{dir}/index.html"
+          end
+          
+          Ruhoh::Friend.say { green "processed: #{file_name}" }          
+          
+          File.open(file_name, 'w:UTF-8') do |file|
             page.data['pagination'] = p
-            index_file.puts page.render
+            file.puts page.render
           end
         end
       end # self.run

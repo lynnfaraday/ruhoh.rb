@@ -13,11 +13,20 @@ class Ruhoh
     end
 
     def call(env)
-      return favicon if env['PATH_INFO'] == '/favicon.ico'
-      return admin if [Ruhoh.urls.dashboard, "#{Ruhoh.urls.dashboard}/"].include?(env['PATH_INFO'])
+      path = env['PATH_INFO']
+      return favicon if path == '/favicon.ico'
+      return admin if [Ruhoh.urls.dashboard, "#{Ruhoh.urls.dashboard}/"].include?(path)
       
-      id = Ruhoh::DB.routes[env['PATH_INFO']]
-      raise "Page id not found for url: #{env['PATH_INFO']}" unless id
+      # TODO (lynnfaraday) - Can't figure out how to get the index pagination pages
+      # to render, because they're not real.  This workaround at least prevents 'page not found' 
+      # errors by keeping you on the index.
+      if (path =~ /\/index\/\d\//)
+        path = "/"
+      end
+      
+      
+      id = Ruhoh::DB.routes[path]
+      raise "Page id not found for url: #{path}" unless id
       @page.change(id)
 
       [200, {'Content-Type' => 'text/html'}, [@page.render]]

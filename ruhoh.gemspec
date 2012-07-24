@@ -100,6 +100,9 @@ Gem::Specification.new do |s|
     widgets/comments/layouts/livefyre.html
     widgets/google_prettify/config.yml
     widgets/google_prettify/layouts/google_prettify.html
+    widgets/comments_count/config.yml
+    widgets/comments_count/layouts/disqus.html
+    widgets/comments_count/layouts/livefyre.html
   ]
   # = MANIFEST =
 end

@@ -69,6 +69,7 @@ class Ruhoh
       begin
         name = @args[1] || "untitled-#{type}"
         name = "#{name}-#{@iterator}" unless @iterator.zero?
+        name = name.gsub('{{DATE}}', Ruhoh::Parsers::Posts.formatted_date(Time.now))
         name = Ruhoh::Urls.to_slug(name)
         filename = File.join(Ruhoh.paths.posts, "#{name}.#{@options.ext}")
         @iterator += 1

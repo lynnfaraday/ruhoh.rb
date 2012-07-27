@@ -11,14 +11,6 @@ class Ruhoh
           @posts = posts
         end
 
-        def get_page(page_number)
-          page_index = page_number - 1
-          if (@pages == nil || page_index < 0 || page_index > @pages.count - 1)
-            return nil
-          end 
-          return @pages[page_index]
-        end
-
         def paginate
           total_posts = @posts.count
           
@@ -32,22 +24,23 @@ class Ruhoh
               @pages << build_page_metadata(page_index, total_pages, total_posts, current_page_posts)
             end
           end
-          @pages
+          {
+            'total_pages'   => total_pages,
+            'total_posts'   => total_posts,
+            'per_page'      => @posts_per_page,
+            'index_pages'   => @pages
+           }
         end
 
         def build_page_metadata(page_index, total_pages, total_posts, posts)
           page_number = page_index + 1
           {
             'page_number'   => page_number,
-            'total_pages'   => total_pages,
-            'total_posts'   => total_posts,
-            'per_page'      => @posts_per_page,
             'posts'         => posts.map { |p| p['id'] },       
             'prev'          => prev_indices(page_number),
             'next'          => next_indices(page_number, total_pages),
             'prev_truncated'=> prev_truncated(page_number),
             'next_truncated'=> next_truncated(page_number, total_pages)
-            
           }
         end
                 

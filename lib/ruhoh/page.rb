@@ -19,7 +19,7 @@ class Ruhoh
       end
       
       # Default to the first pagination page.
-      @data['pagination'] = Ruhoh::DB.posts['pagination'][0]
+      @data['pagination'] = Ruhoh::DB.posts['pagination']['index_pages'][0]
       
       raise "Page #{id} not found in database" unless @data
       @id = id

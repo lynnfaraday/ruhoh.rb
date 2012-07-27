@@ -10,7 +10,7 @@ class Ruhoh
         base_dir = target + "/index"
         FileUtils.mkdir_p base_dir
 
-        Ruhoh::DB.payload['db']['posts']['pagination'].each do |p|  
+        Ruhoh::DB.payload['db']['posts']['pagination']['index_pages'].each do |p|  
           if (p['page_number'] == 1)
             # Index.html is rendered separately
             next

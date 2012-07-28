@@ -7,7 +7,7 @@ features.  For more info, see:
 
 Here are some of the features I'm working on:
 
-## RSS Limit ((Pulled to Ruhoh))
+## RSS Limit ((Pulled to Ruhoh Main))
 
 A new config option allows you to limit the number of posts included in 
 the RSS feed.  Default behavior is to include all posts.
@@ -42,7 +42,9 @@ used to have passed directly is now part of the global payload under
 ### Pagination Data
 
 The global payload now includes pagination data {{pagination}}, which you can use to when formatting 
-your index file.  See (tood) for an example of usage.
+your index file.  
+
+See [blog fork](https://github.com/lynnfaraday/blog/tree/pagination) for an example of usage.
 
 ### Pagination Files
 

@@ -16,15 +16,8 @@ class Ruhoh
       path = env['PATH_INFO']
       return favicon if path == '/favicon.ico'
       return admin if [Ruhoh.urls.dashboard, "#{Ruhoh.urls.dashboard}/"].include?(path)
-      
-      # TODO (lynnfaraday) - Can't figure out how to get the index pagination pages
-      # to render, because they're not real.  This workaround at least prevents 'page not found' 
-      # errors by keeping you on the index.
-      if (path =~ /\/index\/\d\//)
-        path = "/"
-      end
-      
-      
+      return pagination($~[1]) if path.match(/\/index\/(\d+)\/?/)
+
       id = Ruhoh::DB.routes[path]
       raise "Page id not found for url: #{path}" unless id
       @page.change(id)
@@ -36,6 +29,17 @@ class Ruhoh
       [200, {'Content-Type' => 'image/x-icon'}, ['']]
     end
 
+    def pagination(page_number)
+      pagination_data = Ruhoh::DB.payload['db']['posts']['pagination']['index_pages'][(page_number.to_i - 1)]
+      if pagination_data.nil?
+        raise "Page does not exist. Your current pagination settings " +
+              "call for only #{Ruhoh::DB.payload['db']['posts']['pagination']['index_pages'].length} pages."
+      end
+      @page.change('index.html')
+      @page.data['pagination'] = pagination_data
+      return [200, {'Content-Type' => 'text/html'}, [@page.render]]
+    end
+    
     def admin
       template = nil
       [

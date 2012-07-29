@@ -5,20 +5,15 @@ class Ruhoh
         
         # We're basically just replicating index.html over and over with 
         # different pagination content.
-        page.change('index.html')
+        page.change(Ruhoh.config.pagination_base_page)
 
         base_dir = target + "/index"
         FileUtils.mkdir_p base_dir
 
         Ruhoh::DB.payload['db']['posts']['pagination']['index_pages'].each do |p|  
-          if (p['page_number'] == 1)
-            # Index.html is rendered separately
-            next
-          else
             dir = "#{base_dir}/#{p['page_number']}"
             FileUtils.mkdir_p dir
             file_name = "#{dir}/index.html"
-          end
           
           Ruhoh::Friend.say { green "processed: #{file_name}" }          
           

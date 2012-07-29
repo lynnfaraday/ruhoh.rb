@@ -87,7 +87,7 @@ class Ruhoh
         end
         
         def index_page_url(page_number)
-          page_number == 1 ? "/" : "/index/#{page_number}/"
+          "/index/#{page_number}/"
         end
 
       end

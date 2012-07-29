@@ -35,7 +35,7 @@ class Ruhoh
         raise "Page does not exist. Your current pagination settings " +
               "call for only #{Ruhoh::DB.payload['db']['posts']['pagination']['index_pages'].length} pages."
       end
-      @page.change('index.html')
+      @page.change(Ruhoh.config.pagination_base_page)
       @page.data['pagination'] = pagination_data
       return [200, {'Content-Type' => 'text/html'}, [@page.render]]
     end

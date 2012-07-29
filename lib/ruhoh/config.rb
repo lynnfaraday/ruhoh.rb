@@ -11,6 +11,8 @@ class Ruhoh
       :posts_permalink,
       :rss_limit,
       :posts_latest,
+      :pagination_base_page,
+      :pagination_per_page,
       :theme
     )
 
@@ -36,6 +38,11 @@ class Ruhoh
 
       config.posts_latest = site_config['posts']['latest'] rescue nil
       config.posts_latest = 5 if config.posts_latest.nil?
+      
+      config.pagination_base_page = site_config['pagination']['base_page'] rescue nil
+      config.pagination_base_page = 'index.html' if config.pagination_base_page.nil?
+      config.pagination_per_page = site_config['pagination']['per_page'] rescue nil
+      config.pagination_per_page = 10 if config.pagination_per_page.nil?
 
       config.posts_permalink = site_config['posts']['permalink'] rescue nil
       config.posts_layout = site_config['posts']['layout'] rescue nil

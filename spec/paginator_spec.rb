@@ -123,7 +123,7 @@ class PaginatorTests < Test::Unit::TestCase
       pages = pg.paginate()
       page = pages['index_pages'][3]
       assert_equal([1, 2, 3],  page['prev'].map {|p| p['page_number']})
-      assert_equal(['/', '/index/2/', '/index/3/'], page['prev'].map { |p| p['url'] })
+      assert_equal(['/index/1/', '/index/2/', '/index/3/'], page['prev'].map { |p| p['url'] })
       assert_equal(nil, page['prev_truncated'])
     end
 
@@ -135,7 +135,7 @@ class PaginatorTests < Test::Unit::TestCase
       page = pages['index_pages'][4]
       assert_equal([2, 3, 4],  page['prev'].map {|p| p['page_number']})      
       assert_equal(['/index/2/', '/index/3/', '/index/4/'], page['prev'].map { |p| p['url'] })
-      assert_equal('/', page['prev_truncated'])
+      assert_equal('/index/1/', page['prev_truncated'])
     end
 
 

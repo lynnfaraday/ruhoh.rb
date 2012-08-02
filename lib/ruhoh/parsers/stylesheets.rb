@@ -15,7 +15,7 @@ class Ruhoh
         assets[Ruhoh.names.widgets] = self.widget_stylesheets(theme_config)
         assets
       end
-      
+
       # Create mappings for stylesheets registered to the theme layouts.
       # Themes register stylesheets relative to their layouts.
       # Returns Hash with layout names as keys and Array of asset Objects as values.
@@ -31,10 +31,10 @@ class Ruhoh
             }
           }
         end
-        
+
         assets
       end
-      
+
       # Create mappings for stylesheets registered to a given widget.
       # A theme may provide widget stylesheets which will load automatically,
       # provided they adhere to the default naming rules.
@@ -45,19 +45,21 @@ class Ruhoh
         assets = []
         Ruhoh::DB.widgets.each_key do |name|
           default_name = "#{name}.css"
-          stylesheet = theme_config[Ruhoh.names.stylesheets][Ruhoh.names.widgets][name] rescue default_name
-          stylesheet ||=  default_name
-          file = File.join(Ruhoh.paths.theme_widgets, name, Ruhoh.names.stylesheets, stylesheet)
-          next unless File.exists?(file)
-          assets << {
-            "url" => [Ruhoh.urls.theme_widgets, name, Ruhoh.names.stylesheets, stylesheet].join('/'),
-            "id" => file
-          }
+          stylesheets = theme_config[Ruhoh.names.stylesheets][Ruhoh.names.widgets][name] rescue default_name
+          stylesheets ||=  default_name
+          Array(stylesheets).each do |stylesheet|
+            file = File.join(Ruhoh.paths.theme_widgets, name, Ruhoh.names.stylesheets, stylesheet)
+            next unless File.exists?(file)
+            assets <<  
+            {
+              "url" => [Ruhoh.urls.theme_widgets, name, Ruhoh.names.stylesheets, stylesheet].join('/'),
+              "id" => file
+            }
+          end
         end
-
         assets
       end
-      
+
       def self.theme_config
         theme_config = Ruhoh::Utils.parse_yaml_file(Ruhoh.paths.theme_config_data)
         if theme_config.nil?

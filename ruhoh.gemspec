@@ -33,9 +33,9 @@ Gem::Specification.new do |s|
     lib/ruhoh/client/client.rb
     lib/ruhoh/client/help.yml
     lib/ruhoh/compiler.rb
+    lib/ruhoh/compilers/pagination.rb
     lib/ruhoh/compilers/rss.rb
     lib/ruhoh/compilers/theme.rb
-    lib/ruhoh/compilers/pagination.rb
     lib/ruhoh/config.rb
     lib/ruhoh/converters/converter.rb
     lib/ruhoh/converters/markdown.rb
@@ -47,8 +47,8 @@ Gem::Specification.new do |s|
     lib/ruhoh/parsers/javascripts.rb
     lib/ruhoh/parsers/layouts.rb
     lib/ruhoh/parsers/pages.rb
-    lib/ruhoh/parsers/partials.rb
     lib/ruhoh/parsers/pagination.rb
+    lib/ruhoh/parsers/partials.rb
     lib/ruhoh/parsers/payload.rb
     lib/ruhoh/parsers/posts.rb
     lib/ruhoh/parsers/routes.rb
@@ -83,6 +83,7 @@ Gem::Specification.new do |s|
     spec/config_spec.rb
     spec/db_spec.rb
     spec/page_spec.rb
+    spec/paginator_spec.rb
     spec/parsers/layouts_spec.rb
     spec/parsers/pages_spec.rb
     spec/parsers/posts_spec.rb
@@ -98,11 +99,11 @@ Gem::Specification.new do |s|
     widgets/comments/layouts/facebook.html
     widgets/comments/layouts/intensedebate.html
     widgets/comments/layouts/livefyre.html
-    widgets/google_prettify/config.yml
-    widgets/google_prettify/layouts/google_prettify.html
     widgets/comments_count/config.yml
     widgets/comments_count/layouts/disqus.html
     widgets/comments_count/layouts/livefyre.html
+    widgets/google_prettify/config.yml
+    widgets/google_prettify/layouts/google_prettify.html
   ]
   # = MANIFEST =
 end

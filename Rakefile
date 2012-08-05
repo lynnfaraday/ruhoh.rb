@@ -23,6 +23,10 @@ task :build => :gemspec do
   sh "mv #{gem_file} pkg"
 end
 
+task :install => :build do
+  sh "gem install pkg/#{name}-#{Ruhoh::VERSION}.gem"
+end
+
 task :gemspec do
   # read spec file and split out manifest section
   spec = File.read(gemspec_file)

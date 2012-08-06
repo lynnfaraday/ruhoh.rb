@@ -2,13 +2,13 @@ class Ruhoh
   module Compiler
     module Theme
       
-      def self.run(target, page)
-        self.stylesheets(target, page)
-        self.javascripts(target, page)
-        self.media(target, page)
+      def self.run(target, opts)
+        self.stylesheets(target, opts)
+        self.javascripts(target, opts)
+        self.media(target, opts)
       end
       
-      def self.stylesheets(target, page)
+      def self.stylesheets(target, opts)
         Ruhoh::DB.stylesheets.each do |type, assets|
           assets.each do |asset|
             next unless File.exist?(asset['id'])
@@ -19,7 +19,7 @@ class Ruhoh
         end
       end
 
-      def self.javascripts(target, page)
+      def self.javascripts(target, opts)
         Ruhoh::DB.javascripts.each do |type, assets|
           assets.each do |asset|
             next unless File.exist?(asset['id'])
@@ -30,7 +30,7 @@ class Ruhoh
         end
       end
       
-      def self.media(target, page)
+      def self.media(target, opts)
         return unless FileTest.directory? Ruhoh.paths.theme_media
         theme_media = Ruhoh::Utils.url_to_path(Ruhoh.urls.theme_media, target)
         FileUtils.mkdir_p theme_media

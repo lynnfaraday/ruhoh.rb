@@ -8,7 +8,7 @@ require 'ruhoh/client/client'
 
 require 'optparse'
 
-Options = Struct.new(:title, :date, :ext, :verbose)
+Options = Struct.new(:post, :ext, :verbose, :target)
 options = Options.new
 
 opt_parser = OptionParser.new do |opts|
@@ -20,6 +20,14 @@ opt_parser = OptionParser.new do |opts|
   
   opts.on("-v", "--[no-]verbose", "Run verbosely. For pages, shows extra title, url meta-data.") do |v|
     options.verbose = v
+  end
+  
+  opts.on("-p", "--post POST", "Compiles only the specified post.") do |p|
+    options.post = p
+  end
+
+  opts.on("-t", "--target TARGET", "Compiles to the specified target directory.") do |t|
+    options.target = t
   end
     
   opts.on("--version", "Display current gem and ruhoh specification versions.") do

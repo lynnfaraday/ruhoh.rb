@@ -131,7 +131,9 @@ class Ruhoh
     
     # Public: Compile to static website.
     def compile
-      Ruhoh::Program.compile(@args[1])
+      opts = { 'target' => @options.target, 
+               'post'   => @options.post}
+      Ruhoh::Program.compile(opts)
     end
     
     # Public: Create a new blog at the directory provided.

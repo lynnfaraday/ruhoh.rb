@@ -1,10 +1,11 @@
 class Ruhoh
   module Compiler
     module Pagination   
-      def self.run(target, page)
+      def self.run(target, opts)
         
         # We're basically just replicating index.html over and over with 
         # different pagination content.
+        page = Ruhoh::Page.new
         page.change(Ruhoh.config.pagination_base_page)
 
         base_dir = target + "/index"

@@ -68,3 +68,11 @@ summary, which will link to the main post's comment area.
 You can use the {{DATE}} tag in the optional post name parameter when creating a new post.  For example:
 
     ruhoh draft "{{DATE}} My Post Title"
+
+# Single Post Compile
+
+The -p option on a compile will do a partial compile.  It does all the regular pages (since tags, recent posts, etc. will potentially be impacted) but will only touch the post specified.  This is especially useful when you're adding a new post.
+
+    Usage:
+    ruhoh compile -p untitled-1.md
+

@@ -9,9 +9,10 @@ class Ruhoh
       # TODO: This renders the page content even though we already need to
       # render the content to save to disk. This will be a problem when
       # posts numbers expand. Merge this in later.
-      def self.run(target, page)
+      def self.run(target, opts)
         num_posts = Ruhoh.config.rss_limit
         posts = Ruhoh::DB.posts['chronological'].first(num_posts)
+        page = Ruhoh::Page.new
 
         feed = Nokogiri::XML::Builder.new do |xml|
          xml.rss(:version => '2.0') {

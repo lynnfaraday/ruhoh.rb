@@ -23,7 +23,7 @@ class Ruhoh
             file.puts page.render
           end
         end
-      end # self.run
+      end # self.run            
     end # Pagination
   end # Compiler
 end # Ruhoh

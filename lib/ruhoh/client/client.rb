@@ -1,4 +1,5 @@
 require 'ruhoh/compiler'
+require 'ruhoh/publisher'
 
 class Ruhoh
   class Client
@@ -134,6 +135,12 @@ class Ruhoh
       opts = { 'target' => @options.target, 
                'post'   => @options.post}
       Ruhoh::Program.compile(opts)
+    end
+    
+    def publish
+      opts = { 'target' => @options.target, 
+               'post'   => @options.post}
+      Ruhoh::Program.publish(opts)
     end
     
     # Public: Create a new blog at the directory provided.

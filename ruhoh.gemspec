@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
     lib/ruhoh/paths.rb
     lib/ruhoh/previewer.rb
     lib/ruhoh/program.rb
+    lib/ruhoh/publisher.rb
     lib/ruhoh/templaters/asset_helpers.rb
     lib/ruhoh/templaters/base_helpers.rb
     lib/ruhoh/templaters/helpers.rb

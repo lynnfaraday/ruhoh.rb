@@ -55,5 +55,10 @@ class Ruhoh
       Ruhoh::Compiler.compile(opts)
     end
     
+    def self.publish(opts)
+      self.compile(opts)
+      Ruhoh::Publisher.publish(opts)
+    end
+    
   end #Program
 end #Ruhoh

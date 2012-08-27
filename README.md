@@ -157,3 +157,7 @@ In the main site config file:
 		publish:
 		  host: www.site.com
 		  root: /home/me/blog
+
+## Miscellaneous
+
+- Post scaffold has tags by default

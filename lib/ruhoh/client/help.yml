@@ -26,6 +26,12 @@ commands:
     "command" : "page <path>"
     "desc" : |
       Create a new page at the given path.
+
+  -
+    "command" : "publish [-p <post>]"
+    "desc" : |
+      Publishes new posts.
+      
   -
     "command" : "titleize"
     "desc" : |

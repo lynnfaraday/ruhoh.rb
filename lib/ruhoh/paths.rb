@@ -14,6 +14,7 @@ class Ruhoh
       :partials,
       :plugins,
       :posts,
+      :scaffolds,
       :site_data,
       :themes,
       :widgets,
@@ -27,27 +28,31 @@ class Ruhoh
       :theme_javascripts,
       :theme_stylesheets,
       :theme_widgets,
-    
+      
+      :system,
       :system_dashboard_file,
+      :system_scaffolds,
+      :system_partials,
       :system_widgets
     )
     
-    def self.generate(config, base)
+    def self.generate
       paths                     = Paths.new
-      paths.base                = base
-      paths.config_data         = File.join(base, Ruhoh.names.config_data)
-      paths.pages               = File.join(base, Ruhoh.names.pages)
-      paths.posts               = File.join(base, Ruhoh.names.posts)
-      paths.partials            = File.join(base, Ruhoh.names.partials)
-      paths.media               = File.join(base, Ruhoh.names.media)
-      paths.widgets             = File.join(base, Ruhoh.names.widgets)
-      paths.compiled            = File.join(base, Ruhoh.names.compiled)
-      paths.dashboard_file      = File.join(base, Ruhoh.names.dashboard_file)
-      paths.site_data           = File.join(base, Ruhoh.names.site_data)
-      paths.themes              = File.join(base, Ruhoh.names.themes)
-      paths.plugins             = File.join(base, Ruhoh.names.plugins)
+      paths.base                = Ruhoh.base
+      paths.config_data         = File.join(Ruhoh.base, Ruhoh.names.config_data)
+      paths.pages               = File.join(Ruhoh.base, Ruhoh.names.pages)
+      paths.posts               = File.join(Ruhoh.base, Ruhoh.names.posts)
+      paths.partials            = File.join(Ruhoh.base, Ruhoh.names.partials)
+      paths.media               = File.join(Ruhoh.base, Ruhoh.names.media)
+      paths.widgets             = File.join(Ruhoh.base, Ruhoh.names.widgets)
+      paths.compiled            = File.join(Ruhoh.base, Ruhoh.names.compiled)
+      paths.dashboard_file      = File.join(Ruhoh.base, Ruhoh.names.dashboard_file)
+      paths.site_data           = File.join(Ruhoh.base, Ruhoh.names.site_data)
+      paths.themes              = File.join(Ruhoh.base, Ruhoh.names.themes)
+      paths.plugins             = File.join(Ruhoh.base, Ruhoh.names.plugins)
+      paths.scaffolds           = File.join(Ruhoh.base, Ruhoh.names.scaffolds)
       
-      paths.theme               = File.join(base, Ruhoh.names.themes, config.theme)
+      paths.theme               = File.join(Ruhoh.base, Ruhoh.names.themes, Ruhoh.config.theme)
       paths.theme_dashboard_file= File.join(paths.theme, Ruhoh.names.dashboard_file)
       paths.theme_config_data   = File.join(paths.theme, Ruhoh.names.theme_config)
       paths.theme_layouts       = File.join(paths.theme, Ruhoh.names.layouts)
@@ -59,8 +64,11 @@ class Ruhoh
       
       return false unless self.theme_is_valid?(paths)
       
-      paths.system_dashboard_file = File.join(Ruhoh::Root, Ruhoh.names.dashboard_file)
-      paths.system_widgets      = File.join(Ruhoh::Root, Ruhoh.names.widgets)
+      paths.system                    = File.join(Ruhoh::Root, Ruhoh.names.system)
+      paths.system_dashboard_file     = File.join(paths.system, Ruhoh.names.dashboard_file)
+      paths.system_partials           = File.join(paths.system, Ruhoh.names.partials)
+      paths.system_scaffolds          = File.join(paths.system, Ruhoh.names.scaffolds)
+      paths.system_widgets            = File.join(paths.system, Ruhoh.names.widgets)
 
       paths
     end

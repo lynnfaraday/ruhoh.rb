@@ -30,7 +30,7 @@ class Ruhoh
   
   class << self
     attr_accessor :log
-    attr_reader :config, :names, :paths, :root, :urls
+    attr_reader :config, :names, :paths, :root, :urls, :base
   end
   
   @log = Ruhoh::Logger.new
@@ -47,8 +47,10 @@ class Ruhoh
     :plugins => 'plugins',
     :posts => 'posts',
     :javascripts => 'javascripts',
+    :scaffolds => 'scaffolds',
     :site_data => 'site.yml',
     :stylesheets => 'stylesheets',
+    :system => 'system',
     :themes => 'themes',
     :theme_config => 'theme.yml',
     :widgets => 'widgets',
@@ -63,34 +65,56 @@ class Ruhoh
     self.reset
     @log.log_file = opts[:log_file] if opts[:log_file]
     @base = opts[:source] if opts[:source]
-    
-    @config   = Ruhoh::Config.generate(@names.config_data)
-    @paths    = Ruhoh::Paths.generate(@config, @base)
-    @urls     = Ruhoh::Urls.generate(@config)
-
-    return false unless(@config && @paths && @urls)
-    
-    self.setup_plugins unless opts[:enable_plugins] == false
-    self.setup_widgets unless opts[:enable_plugins] == false
-    true
+    @config = Ruhoh::Config.generate
+    !!@config
   end
   
   def self.reset
     @base = Dir.getwd
   end
   
+  def self.setup_paths
+    self.ensure_config
+    @paths = Ruhoh::Paths.generate
+  end
+
+  def self.setup_urls
+    self.ensure_config
+    @urls = Ruhoh::Urls.generate
+  end
+  
   def self.setup_plugins
+    self.ensure_paths
     plugins = Dir[File.join(self.paths.plugins, "**/*.rb")]
     plugins.each {|f| require f } unless plugins.empty?
+    
   end
   
   def self.setup_widgets
-   widgets = Dir[File.join(self.paths.widgets, "**/*.rb")]
-   widgets.each {|f| require f } unless widgets.empty?
+    self.ensure_paths
+    widgets = Dir[File.join(self.paths.widgets, "**/*.rb")]
+    widgets.each {|f| require f } unless widgets.empty?
   end
   
   def self.ensure_setup
-    raise 'Ruhoh has not been setup. Please call: Ruhoh.setup' unless Ruhoh.config && Ruhoh.paths
+    return if Ruhoh.config && Ruhoh.paths && Ruhoh.urls
+    raise 'Ruhoh has not been fully setup. Please call: Ruhoh.setup'
   end  
+  
+  def self.ensure_config
+    return if Ruhoh.config
+    raise 'Ruhoh has not setup config. Please call: Ruhoh.setup'
+  end  
+
+  def self.ensure_paths
+    return if Ruhoh.config && Ruhoh.paths
+    raise 'Ruhoh has not setup paths. Please call: Ruhoh.setup'
+  end  
+  
+  def self.ensure_urls
+    return if Ruhoh.config && Ruhoh.urls
+    raise 'Ruhoh has not setup urls. Please call: Ruhoh.setup + Ruhoh.setup_urls' 
+  end  
+  
   
 end # Ruhoh

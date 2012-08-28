@@ -18,7 +18,13 @@ class Ruhoh
       
       Ruhoh.setup
       Ruhoh.config.env = opts[:env]
+      Ruhoh.setup_paths
+      Ruhoh.setup_urls
+      Ruhoh.setup_plugins unless opts[:enable_plugins] == false
+      Ruhoh.setup_widgets unless opts[:enable_plugins] == false
+      
       Ruhoh::DB.update_all
+      
       Ruhoh::Watch.start if opts[:watch]
       Rack::Builder.new {
         use Rack::Lint
@@ -51,6 +57,11 @@ class Ruhoh
     def self.compile(opts)
       Ruhoh.setup
       Ruhoh.config.env = 'production'
+      Ruhoh.setup_paths
+      Ruhoh.setup_urls
+      Ruhoh.setup_plugins
+      Ruhoh.setup_widgets
+      
       Ruhoh::DB.update_all
       Ruhoh::Compiler.compile(opts)
     end

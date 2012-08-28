@@ -138,32 +138,31 @@ class Ruhoh
       def self.permalink(post)
         date = Date.parse(post['date'])
         title = Ruhoh::Urls.to_url_slug(post['title'])
-        format = post['permalink'] || Ruhoh.config.posts_permalink  || "/:categories/:year/:month/:day/:title.html"
+        format = post['permalink'] || Ruhoh.config.posts_permalink
+
+        if format.include?(':')
+          filename = File.basename(post['id'], File.extname(post['id']))
+          category = Array(post['categories'])[0]
+          category = category.split('/').map {|c| Ruhoh::Urls.to_url_slug(c) }.join('/') if category
         
-        # Use the literal permalink if it is a non-tokenized string.
-        unless format.include?(':')
+          url = {
+            "year"       => date.strftime("%Y"),
+            "month"      => date.strftime("%m"),
+            "day"        => date.strftime("%d"),
+            "title"      => title,
+            "filename"   => filename,
+            "i_day"      => date.strftime("%d").to_i.to_s,
+            "i_month"    => date.strftime("%m").to_i.to_s,
+            "categories" => category || '',
+          }.inject(format) { |result, token|
+            result.gsub(/:#{Regexp.escape token.first}/, token.last)
+          }.gsub(/\/+/, "/")
+        else
+          # Use the literal permalink if it is a non-tokenized string.
           url = format.gsub(/^\//, '').split('/').map {|p| CGI::escape(p) }.join('/')
-          return "/#{url}"
         end  
 
-        filename = File.basename(post['id'], File.extname(post['id']))
-        category = Array(post['categories'])[0]
-        category = category.split('/').map {|c| Ruhoh::Urls.to_url_slug(c) }.join('/') if category
-        
-        url = {
-          "year"       => date.strftime("%Y"),
-          "month"      => date.strftime("%m"),
-          "day"        => date.strftime("%d"),
-          "title"      => title,
-          "filename"   => filename,
-          "i_day"      => date.strftime("%d").to_i.to_s,
-          "i_month"    => date.strftime("%m").to_i.to_s,
-          "categories" => category || '',
-        }.inject(format) { |result, token|
-          result.gsub(/:#{Regexp.escape token.first}/, token.last)
-        }.gsub(/\/+/, "/")
-
-        url
+        Ruhoh::Urls.to_url(url)
       end
     
       def self.build_chronology(ordered_posts)

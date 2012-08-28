@@ -4,47 +4,29 @@ require 'ruhoh/parsers/routes'
 require 'ruhoh/parsers/layouts'
 require 'ruhoh/parsers/partials'
 require 'ruhoh/parsers/widgets'
+require 'ruhoh/parsers/theme_config'
 require 'ruhoh/parsers/stylesheets'
 require 'ruhoh/parsers/javascripts'
 require 'ruhoh/parsers/payload'
 require 'ruhoh/parsers/site'
 require 'ruhoh/parsers/pagination'
+require 'ruhoh/parsers/scaffolds'
 
 class Ruhoh
   # Public: Database class for interacting with "data" in Ruhoh.
   class DB
-    WhiteList = [:site, :posts, :pages, :routes, :layouts, :partials, :widgets, :stylesheets, :javascripts, :payload]
+    WhiteList = [:site, :posts, :pages, :routes, :layouts, :partials, :widgets, :theme_config, :stylesheets, :javascripts, :payload, :scaffolds]
 
     class << self
       self.__send__ :attr_reader, *WhiteList
 
       def update(name)
-        self.instance_variable_set("@#{name}", 
-          case name
-          when :site
-            Ruhoh::Parsers::Site.generate
-          when :routes
-            Ruhoh::Parsers::Routes.generate
-          when :posts
-            Ruhoh::Parsers::Posts.generate
-          when :pages
-            Ruhoh::Parsers::Pages.generate
-          when :layouts
-            Ruhoh::Parsers::Layouts.generate
-          when :partials
-            Ruhoh::Parsers::Partials.generate
-          when :widgets
-            Ruhoh::Parsers::Widgets.generate
-          when :stylesheets
-            Ruhoh::Parsers::Stylesheets.generate
-          when :javascripts
-            Ruhoh::Parsers::Javascripts.generate
-          when :payload
-            Ruhoh::Parsers::Payload.generate
-          else
-            raise "Data type: '#{name}' is not a valid data type."
-          end
+        camelized_name = name.to_s.split('_').map {|a| a.capitalize}.join
+        self.instance_variable_set("@#{name}",
+          Ruhoh::Parsers.const_get(camelized_name).generate
         )
+      rescue NameError
+        raise NameError, "Data type: '#{name}' is not a valid data type."
       end
       
       # Always regenerate a fresh payload since it

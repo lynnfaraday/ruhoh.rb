@@ -13,13 +13,14 @@ class Ruhoh
     end
 
     def call(env)
-      path = env['PATH_INFO']
-      return favicon if path == '/favicon.ico'
-      return admin if [Ruhoh.urls.dashboard, "#{Ruhoh.urls.dashboard}/"].include?(path)
-      return pagination($~[1]) if path.match(/\/index\/(\d+)\/?/)
-
-      id = Ruhoh::DB.routes[path]
-      raise "Page id not found for url: #{path}" unless id
+      return favicon if env['PATH_INFO'] == '/favicon.ico'
+      # Always remove trailing slash if sent unless it's the root page.
+      env['PATH_INFO'].gsub!(/\/$/, '') unless env['PATH_INFO'] == "/"
+      return admin if env['PATH_INFO'] == Ruhoh.urls.dashboard
+      return pagination($~[1]) if env['PATH_INFO'].match(/\/index\/(\d+)\/?/)
+      
+      id = Ruhoh::DB.routes[env['PATH_INFO']]
+      raise "Page id not found for url: #{env['PATH_INFO']}" unless id
       @page.change(id)
 
       [200, {'Content-Type' => 'text/html'}, [@page.render]]

@@ -161,3 +161,4 @@ In the main site config file:
 ## Miscellaneous
 
 - Post scaffold has tags by default
+

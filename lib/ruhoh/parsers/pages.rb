@@ -65,13 +65,13 @@ class Ruhoh
         name = page['id'].gsub(Regexp.new("#{ext}$"), '')
         ext = '.html' if Ruhoh::Converter.extensions.include?(ext)
         url = name.split('/').map {|p| Ruhoh::Urls.to_url_slug(p) }.join('/')
-        url = "/#{url}#{ext}".gsub(/\/index.html$/, '')
+        url = "#{url}#{ext}".gsub(/index.html$/, '')
         if page['permalink'] == 'pretty' || Ruhoh.config.pages_permalink == 'pretty'
-          url = url.gsub(/\.html$/, '') 
+          url = url.gsub(/\.html$/, '')
         end
+        
         url = '/' if url.empty?
-
-        url
+        Ruhoh::Urls.to_url(url)
       end
     
     end # Pages

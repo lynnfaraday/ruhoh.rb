@@ -1,15 +1,17 @@
 require 'ruhoh/compiler'
 require 'ruhoh/publisher'
+require 'ruhoh/client/console_methods'
+require 'irb'
 
 class Ruhoh
+  
   class Client
     
     Paths = Struct.new(:page_template, :draft_template, :post_template, :layout_template, :theme_template)
-    BlogScaffold = 'git://github.com/ruhoh/blog.git'
+    DefaultBlogScaffold = 'git://github.com/ruhoh/blog.git'
     
     def initialize(data)
       @iterator = 0
-      self.setup_paths
       self.setup_options(data)
       
       cmd = (data[:args][0] == 'new') ? 'blog' : (data[:args][0] || 'help')
@@ -18,10 +20,22 @@ class Ruhoh
         exit 
       } unless self.respond_to?(cmd)
 
-      Ruhoh.setup unless ['help','blog','compile'].include?(cmd)
+      unless ['help','blog','compile'].include?(cmd)
+        Ruhoh.setup
+        Ruhoh.setup_paths
+        Ruhoh.setup_urls
+      end  
 
       self.__send__(cmd)
     end  
+    
+    # Thanks rails! https://github.com/rails/rails/blob/master/railties/lib/rails/commands/console.rb
+    def console
+      ARGV.clear # IRB throws an error otherwise.
+      require 'pp'
+      IRB::ExtendCommandBundle.send :include, Ruhoh::ConsoleMethods
+      IRB.start
+    end
     
     def setup_options(data)
       @args = data[:args]
@@ -30,15 +44,6 @@ class Ruhoh
       @options.ext = (@options.ext || 'md').gsub('.', '')
     end
     
-    def setup_paths
-      @paths = Paths.new
-      @paths.page_template    = File.join(Ruhoh::Root, "scaffolds", "page.html")
-      @paths.draft_template   = File.join(Ruhoh::Root, "scaffolds", "draft.html")
-      @paths.post_template    = File.join(Ruhoh::Root, "scaffolds", "post.html")
-      @paths.layout_template  = File.join(Ruhoh::Root, "scaffolds", "layout.html")
-      @paths.theme_template   = File.join(Ruhoh::Root, "scaffolds", "theme")
-    end
-
     # Internal: Show Client Utility help documentation.
     def help
       file = File.join(Ruhoh::Root, 'lib', 'ruhoh', 'client', 'help.yml')
@@ -76,9 +81,10 @@ class Ruhoh
         @iterator += 1
       end while File.exist?(filename)
       
-      FileUtils.mkdir_p File.dirname(filename)
+      Ruhoh::DB.update(:scaffolds)
 
-      output = File.open(@paths.send("#{type}_template"), 'r:UTF-8') { |f| f.read }
+      FileUtils.mkdir_p File.dirname(filename)
+      output = Ruhoh::DB.scaffolds["#{type}.html"].to_s
       output = output.gsub('{{DATE}}', Ruhoh::Parsers::Posts.formatted_date(Time.now))
       File.open(filename, 'w:UTF-8') {|f| f.puts output }
       
@@ -103,12 +109,12 @@ class Ruhoh
       if File.exist?(filename)
         abort("Create new page: aborted!") if ask("#{filename} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
       end
-
+      
+      Ruhoh::DB.update(:scaffolds)
+      
       FileUtils.mkdir_p File.dirname(filename)
-      File.open(@paths.page_template, 'r:UTF-8') do |template|
-        File.open(filename, 'w:UTF-8') do |page|
-          page.puts template.read
-        end
+      File.open(filename, 'w:UTF-8') do |page|
+        page.puts Ruhoh::DB.scaffolds['page.html'].to_s
       end
       
       Ruhoh::Friend.say { 
@@ -146,6 +152,8 @@ class Ruhoh
     # Public: Create a new blog at the directory provided.
     def blog
       name = @args[1]
+      scaffold = @args.length > 2 ? @args[2] : DefaultBlogScaffold
+      useHg = @options.hg
       Ruhoh::Friend.say { 
         red "Please specify a directory path." 
         plain "  ex: ruhoh new the-blogist"
@@ -162,9 +170,16 @@ class Ruhoh
       
       Ruhoh::Friend.say { 
         plain "Trying this command:"
-        cyan "  git clone #{BlogScaffold} #{target_directory}"
 
-        if system('git', 'clone', BlogScaffold, target_directory)
+        if useHg
+          cyan "  hg clone #{scaffold} #{target_directory}"
+          success = system('hg', 'clone', scaffold, target_directory)
+        else
+          cyan "  git clone #{scaffold} #{target_directory}"
+          success = system('git', 'clone', scaffold, target_directory)
+        end
+
+        if success
           green "Success! Now do..."
           cyan "  cd #{target_directory}"
           cyan "  rackup -p9292"
@@ -176,30 +191,6 @@ class Ruhoh
       }
     end
     
-    # Public: Create a new theme scaffold with the given name.
-    def theme
-      name = @args[1]
-      Ruhoh::Friend.say { 
-        red "Please specify a theme name." 
-        cyan "ex: ruhoh new theme the-rain"
-        exit
-      } if name.nil?
-
-      target_directory = File.expand_path(File.join(Ruhoh.paths.theme, '..', name.gsub(/\s/, '-').downcase))
-      
-      if File.exist?(target_directory)
-        abort("Create new theme: \e[31mAborted!\e[0m") if ask("#{target_directory} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
-      end
-
-      FileUtils.mkdir target_directory unless File.exist?(target_directory)
-      FileUtils.cp_r "#{@paths.theme_template}/.", target_directory
-      
-      Ruhoh::Friend.say { 
-        green "New theme scaffold:"
-        green target_directory
-      }
-    end
-
     # Public: Create a new layout file for the active theme.
     def layout
       name = @args[1]
@@ -214,11 +205,11 @@ class Ruhoh
         abort("Create new layout: aborted!") if ask("#{filename} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
       end
       
+      Ruhoh::DB.update(:scaffolds)
+      
       FileUtils.mkdir_p File.dirname(filename)
-      File.open(@paths.layout_template) do |template|
-        File.open(filename, 'w:UTF-8') do |page|
-          page.puts template.read
-        end
+      File.open(filename, 'w:UTF-8') do |page|
+        page.puts Ruhoh::DB.scaffolds['layout.html'].to_s
       end
       
       Ruhoh::Friend.say {

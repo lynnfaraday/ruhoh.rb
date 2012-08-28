@@ -13,11 +13,12 @@ class Ruhoh
       :posts_latest,
       :pagination_base_page,
       :pagination_per_page,
-      :theme
+      :theme,
+      :base_path
     )
 
-    def self.generate(path_to_config)
-      site_config = Ruhoh::Utils.parse_yaml_file(path_to_config)
+    def self.generate
+      site_config = Ruhoh::Utils.parse_yaml_file(Ruhoh.base, Ruhoh.names.config_data)
       unless site_config
         Ruhoh.log.error("Empty site_config.\nEnsure ./#{Ruhoh.names.config_data} exists and contains valid YAML")
         return false
@@ -31,8 +32,15 @@ class Ruhoh
       
       config = Config.new
       config.theme = theme
+      
       config.env = site_config['env'] || nil
 
+      config.base_path = '/'
+      if site_config['base_path']
+        config.base_path = site_config['base_path'].to_s
+        config.base_path += "/" unless config.base_path[-1] == '/'
+      end
+      
       config.rss_limit = site_config['rss']['limit'] rescue nil
       config.rss_limit = 20 if config.rss_limit.nil?
 
@@ -45,6 +53,7 @@ class Ruhoh
       config.pagination_per_page = 10 if config.pagination_per_page.nil?
 
       config.posts_permalink = site_config['posts']['permalink'] rescue nil
+      config.posts_permalink ||= "/:categories/:year/:month/:day/:title.html"
       config.posts_layout = site_config['posts']['layout'] rescue nil
       config.posts_layout = 'post' if config.posts_layout.nil?
       excluded_posts = site_config['posts']['exclude'] rescue nil

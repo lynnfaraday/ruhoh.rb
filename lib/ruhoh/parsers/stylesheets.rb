@@ -45,8 +45,9 @@ class Ruhoh
         assets = []
         Ruhoh::DB.widgets.each_key do |name|
           default_name = "#{name}.css"
-          stylesheet = Ruhoh::DB.theme_config[Ruhoh.names.stylesheets][Ruhoh.names.widgets][name] rescue default_name
-          stylesheet ||=  default_name
+          stylesheets = Ruhoh::DB.theme_config[Ruhoh.names.stylesheets][Ruhoh.names.widgets][name] rescue default_name
+          stylesheets ||=  default_name
+          
           
           Array(stylesheets).each do |stylesheet|
             file = File.join(Ruhoh.paths.theme_widgets, name, Ruhoh.names.stylesheets, stylesheet)

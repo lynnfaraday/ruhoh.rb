@@ -32,9 +32,9 @@ Gem::Specification.new do |s|
     lib/ruhoh/client/console_methods.rb
     lib/ruhoh/client/help.yml
     lib/ruhoh/compiler.rb
-    lib/ruhoh/compilers/pages.rb
-    lib/ruhoh/compilers/media.rb
     lib/ruhoh/compilers/javascripts.rb
+    lib/ruhoh/compilers/media.rb
+    lib/ruhoh/compilers/pages.rb
     lib/ruhoh/compilers/pagination.rb
     lib/ruhoh/compilers/rss.rb
     lib/ruhoh/compilers/theme.rb

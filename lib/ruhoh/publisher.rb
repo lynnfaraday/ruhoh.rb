@@ -12,6 +12,7 @@ class Ruhoh
         system "scp -r #{target}/#{page.compiled_path} #{host}:#{root}/#{page.compiled_path}"
       end
       system "scp -r #{target}/index/* #{host}:#{root}/index"
+      system "scp #{target}/rss.xml #{host}:#{root}/rss.xml"      
     end
   end
 end

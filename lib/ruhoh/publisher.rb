@@ -6,13 +6,18 @@ class Ruhoh
       host = Ruhoh::DB.site['config']['publish']['host']
       root = Ruhoh::DB.site['config']['publish']['root']
 
-      page = Ruhoh::Page.new
-      pages.each_value do |p|
-        page.change(p['id'])
-        system "scp -r #{target}/#{page.compiled_path} #{host}:#{root}/#{page.compiled_path}"
+      if (pages.count < 10)
+        page = Ruhoh::Page.new
+        pages.each_value do |p|
+          page.change(p['id'])
+          system "scp -r #{target}/#{page.compiled_path} #{host}:#{root}/#{page.compiled_path}"
+        end
+      else
+        system "scp -r #{target}/posts #{host}:#{root}"
       end
+      
       system "scp -r #{target}/index/* #{host}:#{root}/index"
-      system "scp #{target}/rss.xml #{host}:#{root}/rss.xml"      
+      system "scp #{target}/*rss.xml #{host}:#{root}"      
     end
   end
 end

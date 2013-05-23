@@ -6,6 +6,9 @@ class Ruhoh
       host = Ruhoh::DB.site['config']['publish']['host']
       root = Ruhoh::DB.site['config']['publish']['root']
 
+      # If there are a lot of pages changed, it's more efficient to 
+      # just copy everything, but if there are only a few it's actually
+      # faster to rebuild them and copy them one by one.
       if (pages.count < 10)
         page = Ruhoh::Page.new
         pages.each_value do |p|

@@ -23,6 +23,10 @@ task :build do
   sh "mv #{gem_file} pkg"
 end
 
+task :install => :build do
+  sh "gem install pkg/#{name}-#{Ruhoh::VERSION}.gem"
+end
+
 ## Tests
 
 RSpec::Core::RakeTask.new('spec')

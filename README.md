@@ -147,7 +147,6 @@ If you need to publish your compiled site to a server (as opposed to just pushin
     Usage:
     ruhoh publish -p untitled-1.md -t output_dir
 
-
 ### Configuration
 
 In the main site config file:

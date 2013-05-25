@@ -35,6 +35,11 @@ Build and install the gem in one step - handy for gem development.
 
 Give widgets access to the current *post* and global site config.
 
+## Popeye Gallery Widget
+In progess.  
+
+TODO:  How to organize scripts, stylesheets, extension method
+
 ## Comments Count Widget
 
 **Broken due to lack of more widget context.**

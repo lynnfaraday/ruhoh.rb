@@ -1,0 +1,21 @@
+<div class="pagination">
+
+{{# posts.paginator_navigation.more_prev.url}}
+ <a href="{{posts.paginator_navigation.more_prev.url}}">&larr;</a>
+{{/ posts.paginator_navigation.more_prev.url}}
+
+{{# posts.paginator_navigation.prev}}
+<a href="{{url}}">{{page_number}}</a>
+{{/ posts.paginator_navigation.prev}}
+
+{{posts.paginator_navigation.current}}
+
+{{# posts.paginator_navigation.next}}
+<a href="{{url}}">{{page_number}}</a>
+{{/ posts.paginator_navigation.next}}
+
+{{# posts.paginator_navigation.more_next.url}}
+ <a href="{{posts.paginator_navigation.more_next.url}}">&rarr;</a>
+{{/ posts.paginator_navigation.more_next.url}}
+
+</div>

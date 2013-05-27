@@ -33,6 +33,8 @@ Build and install the gem (locally) in one step - handy for gem development.
 
 Display a gallery of photos.  The two layouts it includes by default are [Popeye](http://dev.herr-schuessler.de/jquery/popeye/), a lightbox-style image gallery, or a simple table grid view.
 
+
+
 ###Configuration
 
 In site config, select the popeye or grid layout.
@@ -72,6 +74,36 @@ You can easily build the yaml metadata for a Flickr set using my [Flickr Badge M
 ###Styling:
 
 Grab the stylesheets and media for the gallery in my fork of the [ruhoh blog scaffold](https://github.com/lynnfaraday/blog).
+
+## Share This Widget
+
+A widget using [Share This](http://sharethis.com/) to present the user with a bunch of options for sharing the post.
+
+*Note: This widget is available only in my fork of the [ruhoh blog scaffold](https://github.com/lynnfaraday/blog) because there is no code involved.* 
+
+### Configuration
+
+You need to get your custom javascript from Share This.   You'll probably also want to tweak the layout. 
+
+## Social Bar Widget
+
+Shows social media icons where folks can follow you.
+
+### Configuration
+
+	use: social_bar
+
+	"sites" : 
+    	[    
+    	{ "name": "RSS", "icon": "rss.jpg", "url": "/rss.xml"},
+    	{ "name": "G+", "icon": "gplus.png", "url": "https://plus.google.com/youridhere"},
+    	{ "name": "Facebook", "icon": "fb.png", "url": "http://www.facebook.com/yourfacebook"},
+    	{ "name": "Flickr", "icon" : "flickr.png", "url": "http://flickr.com/yourflickr"},
+    	]
+
+### Styling
+
+Be sure to grab the media from my fork of the [ruhoh blog scaffold](https://github.com/lynnfaraday/blog).
 
 # Features In Flux
 

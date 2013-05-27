@@ -71,6 +71,11 @@ module Ruhoh::Base
     def tags
       @model.collection.to_tags(data['tags'])
     end
+    
+    def gallery_photos
+      puts "Trying to get gallery photos."
+      data['gallery_photos']
+    end
 
     # Lazy-load the page body.
     # Notes:

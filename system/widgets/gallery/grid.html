@@ -1,0 +1,17 @@
+<table>
+
+<tr><td colspan="2">
+<i>Click on the photo to enlarge.</i>
+</td></tr>
+{{#this_page.gallery_photos}}
+<tr><td>
+<a href="{{enlarge_image_url}}">
+<img src="{{preview_image_url}}" alt="{{caption}}" width="250px" /></a>
+</td>
+<td>
+<a href="{{view_url}}" target="_blank">{{caption}}</a>
+</td>
+</tr>
+{{/this_page.gallery_photos}}
+
+</table>

@@ -1,0 +1,39 @@
+<script src="{{this_path}}/javascripts/jquery.min-1.6.2.js"></script>
+<script src="{{this_path}}/javascripts/jquery.popeye-2.1.js"></script>
+<script src="{{this_path}}/javascripts/popeye_options.js"></script>
+
+
+<noscript><font color="blue"><b>For optimum photo gallery viewing, please enable JavaScript.</b></font></noscript>
+<div class="ppy" id="ppy2">
+<ul class="ppy-imglist">
+
+
+{{#this_page.gallery_photos}}
+<li><a href="{{enlarge_image_url}}">
+<img src="{{preview_image_url}}" alt="{{caption}}" width="250px" /></a>
+<span class="ppy-extcaption"><a href="{{view_url}}" target="_blank">{{caption}}</a></span>
+</li>
+{{/this_page.gallery_photos}}
+
+</ul>
+<div class="ppy-outer">
+    <div class="ppy-stage-wrap">
+        <div class="ppy-stage">
+            <div class="ppy-counter">
+                <strong class="ppy-current"></strong> / <strong class="ppy-total"></strong>
+            </div>
+        </div>
+    </div>
+    <div class="ppy-nav">
+        <div class="ppy-nav-wrap">
+            <a class="ppy-next" title="Next image">Next image</a>
+            <a class="ppy-prev" title="Previous image">Previous image</a>
+        </div>
+    </div>
+    <div class="ppy-caption">
+        <b><span class="ppy-text"></span></b>  <span class="ppy-enlarge">click to enlarge</span>
+    </div>
+
+</div>
+
+</div>

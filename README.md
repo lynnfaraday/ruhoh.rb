@@ -7,7 +7,7 @@ features.  For more info, see:
 
 Here are some of the features in this fork.
 
-**Note:  Due to the epic redesign for Ruhoh 2.1, a lot of the features broke and need to be redesigned as well.  The old stable version is still available on the 1.1 branch.**
+**Note:  Due to the epic redesign for Ruhoh 2.1, some of the features broke and need to be redesigned.  I fixed many of them, but there are still a few down for repairs.  The old stable version is still available on the 1.1 branch.**
 
 # Completed Features
 
@@ -19,13 +19,59 @@ You can use the {{DATE}} tag in the optional post name parameter when creating a
 
 ## Widget Context
 
-Widget layouts now have access to the current page context via the *this_page* variable.
+Widget layouts now have access to the current page context via the *this_page* variable.  For example:
+
+	{{this_page.url}}
 
 ## Rake Install
 
-Build and install the gem in one step - handy for gem development.
+Build and install the gem (locally) in one step - handy for gem development.
 
 	rake install
+
+## Photo Gallery Widget
+
+Display a gallery of photos.  The two layouts it includes by default are [Popeye](http://dev.herr-schuessler.de/jquery/popeye/), a lightbox-style image gallery, or a simple table grid view.
+
+###Configuration
+
+In site config, select the popeye or grid layout.
+
+	gallery:
+     	use: popeye
+
+###Usage:
+
+In your blog post, include the gallery widget:
+
+	{{{widgets.gallery}}}
+	
+In the page metadata, list the photo information under the 'gallery_photos' keyword:
+
+	---
+	title: Foo
+	date: '2013-05-09'
+	description:
+	categories:
+	tags: []
+	gallery_photos:
+	- enlarge_image_url: http://url.org/photo1_big.jpg
+  	preview_image_url: http://url.org/photo1_small.jpg
+  	view_url: http://url.org/photo.html
+  	caption: My Caption 1
+	- enlarge_image_url: http://url.org/photo2_big.jpg
+  	preview_image_url: http://url.org/photo2_small.jpg
+  	view_url: http://url.org/photo.html
+  	caption: My Caption 2
+	---
+
+preview_image_url is the small image displayed at first, and enlarge_image_url is shown when the user clicks to enlarge the gallery view.  view_url and caption are shown in a link.
+
+You can easily build the yaml metadata for a Flickr set using my [Flickr Badge Maker](https://github.com/lynnfaraday/Flickr_Badge_Maker) utility.
+
+###Styling:
+
+Grab the stylesheets and media for the gallery in my fork of the [ruhoh blog scaffold](https://github.com/lynnfaraday/blog).
 
 # Features In Flux
 
@@ -34,11 +80,6 @@ Build and install the gem in one step - handy for gem development.
 **Broken by Ruhoh 2.1 redesign.  Investigating.**
 
 Give widgets access to the current *post* and global site config.
-
-## Popeye Gallery Widget
-In progess.  
-
-TODO:  How to organize scripts, stylesheets, extension method
 
 ## Comments Count Widget
 
@@ -79,26 +120,6 @@ Configuration:
 	* Each compiler must generate its own 'Page' object (if it needs one); it is no longer passed in.
 
 	     page = Ruhoh::Page.new
-
-## Publish Option
-
-**Broken by epic merge conflicts in Ruhoh 2.1 redesign.  Temporarily disabled while fixes are in progress.**
-
-	If you need to publish your compiled site to a server (as opposed to just pushing the git repo), the publish option is for you.  It will compile either the whole site or just a post (see Compiler Options, above), and then use *scp* to copy the results to your website.
-
-	    Usage:
-	    ruhoh publish -p untitled-1.md -t output_dir
-
-	### Configuration
-
-	In the main site config file:
-
-		    # config.yml
-		    ---
-			publish:
-			  host: www.site.com
-			  root: /home/me/blog
-
 
 # Merged Features
 

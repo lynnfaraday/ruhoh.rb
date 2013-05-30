@@ -73,7 +73,6 @@ module Ruhoh::Base
     end
     
     def gallery_photos
-      puts "Trying to get gallery photos."
       data['gallery_photos']
     end
 
@@ -119,7 +118,7 @@ module Ruhoh::Base
 
       # The summary may be missing some key items needed to render properly.
       # So search the rest of the content and add it to the summary.
-      content.lines.with_index(line_breakpoint) do |line, i|
+      content.lines.drop(line_breakpoint).each do |line|
         # Add lines containing destination urls.
         if line =~ /^\[[^\]]+\]:/
           summary << "\n#{line}"

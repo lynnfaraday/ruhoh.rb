@@ -3,7 +3,10 @@
 <tr><td colspan="2">
 <i>Click on the photo to enlarge.</i>
 </td></tr>
-{{#this_page.gallery_photos}}
+
+<!-- Use either the current post's gallery_photos (for the main index page) or the page view (for a single post) -->
+
+{{#gallery_photos}}
 <tr><td>
 <a href="{{enlarge_image_url}}">
 <img src="{{preview_image_url}}" alt="{{caption}}" width="250px" /></a>
@@ -12,6 +15,16 @@
 <a href="{{view_url}}" target="_blank">{{caption}}</a>
 </td>
 </tr>
-{{/this_page.gallery_photos}}
+{{/gallery_photos}}
+{{#page.gallery_photos}}
+<tr><td>
+<a href="{{enlarge_image_url}}">
+<img src="{{preview_image_url}}" alt="{{caption}}" width="250px" /></a>
+</td>
+<td>
+<a href="{{view_url}}" target="_blank">{{caption}}</a>
+</td>
+</tr>
+{{/page.gallery_photos}}
 
 </table>

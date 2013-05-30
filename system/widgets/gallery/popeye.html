@@ -2,18 +2,27 @@
 <script src="{{this_path}}/javascripts/jquery.popeye-2.1.js"></script>
 <script src="{{this_path}}/javascripts/popeye_options.js"></script>
 
-
 <noscript><font color="blue"><b>For optimum photo gallery viewing, please enable JavaScript.</b></font></noscript>
 <div class="ppy" id="ppy2">
 <ul class="ppy-imglist">
 
 
-{{#this_page.gallery_photos}}
+<!-- Use either the current post's gallery_photos (for the main index page) or the page view (for a single post) -->
+
+{{#gallery_photos}}
 <li><a href="{{enlarge_image_url}}">
 <img src="{{preview_image_url}}" alt="{{caption}}" width="250px" /></a>
 <span class="ppy-extcaption"><a href="{{view_url}}" target="_blank">{{caption}}</a></span>
 </li>
-{{/this_page.gallery_photos}}
+{{/gallery_photos}}
+
+{{#page.gallery_photos}}
+<li><a href="{{enlarge_image_url}}">
+<img src="{{preview_image_url}}" alt="{{caption}}" width="250px" /></a>
+<span class="ppy-extcaption"><a href="{{view_url}}" target="_blank">{{caption}}</a></span>
+</li>
+{{/page.gallery_photos}}
+
 
 </ul>
 <div class="ppy-outer">

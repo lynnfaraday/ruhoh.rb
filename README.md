@@ -13,15 +13,9 @@ Here are some of the features in this fork.
 
 ## Auto-Date Posts
 
-You can use the {{DATE}} tag in the optional post name parameter when creating a new post.  For example:
+Dates are automatically appended to post titles when creating a new post.
 
-    ruhoh draft "{{DATE}} My Post Title"
-
-## Widget Context
-
-Widget layouts now have access to the current page context via the *this_page* variable.  For example:
-
-	{{this_page.url}}
+    ruhoh draft "My Post Title"  -->  2013-01-02 My Post Title
 
 ## Rake Install
 
@@ -107,12 +101,6 @@ Be sure to grab the media from my fork of the [ruhoh blog scaffold](https://gith
 
 # Features In Flux
 
-## More Widget Context
-
-**Broken by Ruhoh 2.1 redesign.  Investigating.**
-
-Give widgets access to the current *post* and global site config.
-
 ## Comments Count Widget
 
 **Broken due to lack of more widget context.**
@@ -155,6 +143,10 @@ Configuration:
 
 # Merged Features
 
+## Widget Context
+*Merged to main, will be released in the next version*
+Widget layouts now have access to the current page context.
+	
 ## RSS Limit 
 *Released as of Ruhoh 2.1*
 A new config option allows you to limit the number of posts included in the RSS feed.  

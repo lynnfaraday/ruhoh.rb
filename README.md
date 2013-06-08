@@ -1,15 +1,14 @@
 # My Ruhoh
 
-This fork of the ruhoh blogging engine is for my fiddling with various 
-features.  For more info, see:
+This is a fork of the [Ruhoh blog engine](http://ruhoh.com).  I have extended the engine with several new features and plugins from my own blog.
 
-<http://ruhoh.com>
+# Status
 
-Here are some of the features in this fork.
-
-**Note:  Due to the epic redesign for Ruhoh 2.1, some of the features broke and need to be redesigned.  I fixed many of them, but there are still a few down for repairs.  The old stable version is still available on the 1.1 branch.**
+**All features are now (hopefully!) fixed after the epic Ruhoh 2.1 merge.**
 
 # Completed Features
+
+These features are done but not merged to ruhoh main.
 
 ## Auto-Date Posts
 
@@ -25,9 +24,9 @@ Build and install the gem (locally) in one step - handy for gem development.
 
 ## Photo Gallery Widget
 
-Display a gallery of photos.  The two layouts it includes by default are [Popeye](http://dev.herr-schuessler.de/jquery/popeye/), a lightbox-style image gallery, or a simple table grid view.
+Display a gallery of photos.  The two layouts it includes by default are [Popeye](http://dev.herr-schuessler.de/jquery/popeye/), a lightbox-style image gallery, and a simple table grid view.
 
-
+*Note: This widget is available only in my fork of the [ruhoh blog scaffold](https://github.com/lynnfaraday/blog) because it requires javascripts and styling that doesn't fit nicely into the ruhoh engine.* 
 
 ###Configuration
 
@@ -67,7 +66,11 @@ You can easily build the yaml metadata for a Flickr set using my [Flickr Badge M
 
 ###Styling:
 
-Grab the stylesheets and media for the gallery in my fork of the [ruhoh blog scaffold](https://github.com/lynnfaraday/blog).
+Grab the stylesheets, media and javascripts from the theme folder.
+
+    lynn/javascripts/gallery
+    lynn/stylesheets/gallery
+    lynn/media/gallery
 
 ## Share This Widget
 
@@ -99,11 +102,8 @@ Shows social media icons where folks can follow you.
 
 Be sure to grab the media from my fork of the [ruhoh blog scaffold](https://github.com/lynnfaraday/blog).
 
-# Features In Flux
 
 ## Comments Count Widget
-
-**Broken due to lack of more widget context.**
 
 Shows a url like "0 comments" at the bottom of each post on your index page or paginated pages (since there's a known limitation with disqus and livefyre including them on a multi-post page).
 
@@ -117,29 +117,6 @@ Configuration:
        # site_id: 123
 
     {{{widgets.comments_count}}}
-
-## Compiler Options - Target Dir and Single Post
-
-**Broken by epic merge conflicts in Ruhoh 2.1 redesign.  Temporarily disabled while fixes are in progress.**
-
-	-p will do a partial compile.  It does all the regular pages (since tags, recent posts, etc. will potentially be impacted) but will only touch the post specified.  This is especially useful when you're adding a new post.
-
-	-t will set the target directory.
-
-	    Usage:
-	    ruhoh compile -p untitled-1.md -t output_dir
-
-	<font color="red">**Breaking Changes**:</font> 
-
-	* The target directory can no longer be passed directly to the compile command; use -t.
-	* The signature of a custom compiler's "run" method has changed to
-
-	     def self.run(target, opts) 
-
-	   The intent of this is as a stepping stone more flexible option parsing, if needed, though it isn't supported right now.
-	* Each compiler must generate its own 'Page' object (if it needs one); it is no longer passed in.
-
-	     page = Ruhoh::Page.new
 
 # Merged Features
 

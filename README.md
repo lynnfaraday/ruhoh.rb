@@ -72,6 +72,22 @@ Grab the stylesheets, media and javascripts from the theme folder.
     lynn/stylesheets/gallery
     lynn/media/gallery
 
+Add the stylesheets to the style loader:
+
+	{{# stylesheets.load }}
+    ... others ...
+    gallery/jquery.popeye.css
+    gallery/jquery.popeye.style.css
+    {{/ stylesheets.load }}
+
+And do the same for the javascripts:
+
+	{{# javascripts.load }}
+	   gallery/jquery.min-1.6.2.js
+	   gallery/jquery.popeye-2.1.js
+	   gallery/popeye_options.js
+	{{/ javascripts.load }}
+
 ## Share This Widget
 
 A widget using [Share This](http://sharethis.com/) to present the user with a bunch of options for sharing the post.
